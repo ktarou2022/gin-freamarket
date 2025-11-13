@@ -1,9 +1,11 @@
 package main
 
 import (
+	"gin-fleamarket/controllers"
 	"gin-fleamarket/models"
-
-	"github.com/gin-gonic/gin"
+	"gin-fleamarket/repositories"
+	"gin-fleamarket/router"
+	"gin-fleamarket/services"
 )
 
 func main() {
@@ -12,11 +14,12 @@ func main() {
     {ID: 2, Name: "商品2", Price: 2000, Description: "説明2", SoldOut: true},
     {ID: 3, Name: "商品3", Price: 3000, Description: "説明3", SoldOut: false},
   }
-  router := gin.Default()
-  router.GET("/sample", func(c *gin.Context) {
-    c.JSON(200, gin.H{
-      "message": "pong",
-    })
-  })
-  router.Run(":8080") // デフォルトで0.0.0.0:8080で待機します
+
+  itemRepository := repositories.NewItemMemoryRepository(items)
+  itemServices := services.NewItemService(itemRepository)
+  itemController := controllers.NewItemController(itemServices)
+
+  g := router.NewRouter(itemController)
+
+  g.Run(":8080") // デフォルトで0.0.0.0:8080で待機します
 }
