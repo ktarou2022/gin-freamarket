@@ -15,6 +15,7 @@ func NewRouter(ic controllers.IItemController) *gin.Engine {
   })
   g.GET("/items", ic.FindAll)
   g.GET("/items/:id", ic.FindById)
+  g.POST("/items", ic.Create)
 
   return g
 }
