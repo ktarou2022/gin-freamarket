@@ -13,7 +13,8 @@ func NewRouter(ic controllers.IItemController) *gin.Engine {
       "message": "pong",
     })
   })
-  g.GET("items", ic.FindAll)
+  g.GET("/items", ic.FindAll)
+  g.GET("/items/:id", ic.FindById)
 
   return g
 }
