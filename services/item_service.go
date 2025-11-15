@@ -10,6 +10,7 @@ type IItemService interface {
 	FindAll() (*[]models.Item, error)
 	FindById(itemId uint) (*models.Item, error)
 	Create(createItemInput dto.CreateTypeInput) (*models.Item, error)
+	Update(itemId uint, updateItmeInput dto.UpdateItemInput) (*models.Item, error)
 }
 
 type itemService struct {
@@ -36,4 +37,29 @@ func (s *itemService) Create(createItemInput dto.CreateTypeInput) (*models.Item,
 		SoldOut:     false,
 	}
 	return s.repository.Create(newItem)
+}
+
+func (s *itemService) Update(itemId uint, updateItmeInput dto.UpdateItemInput) (*models.Item, error) {
+	targetItem, err := s.FindById(itemId)
+	if err != nil {
+		return nil, err
+	}
+
+	if updateItmeInput.Name != nil {
+		targetItem.Name = *updateItmeInput.Name
+	}
+
+	if updateItmeInput.Price != nil {
+		targetItem.Price = *updateItmeInput.Price
+	}
+
+	if updateItmeInput.Description != nil {
+		targetItem.Description = *updateItmeInput.Description
+	}
+
+	if updateItmeInput.SoldOut != nil {
+		targetItem.SoldOut = *updateItmeInput.SoldOut
+	}
+	
+	return s.repository.Update(*targetItem)
 }

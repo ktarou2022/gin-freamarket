@@ -12,4 +12,5 @@
 # 依存関係ツール
 /vendor/
 
-main
+
+tmp/main
