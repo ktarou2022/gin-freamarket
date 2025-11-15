@@ -17,6 +17,7 @@ func NewRouter(ic controllers.IItemController) *gin.Engine {
   g.GET("/items/:id", ic.FindById)
   g.POST("/items", ic.Create)
   g.PUT("/items/:id", ic.Update)
+  g.DELETE("/items/:id", ic.Delete)
 
   return g
 }
