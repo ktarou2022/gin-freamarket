@@ -6,6 +6,7 @@ services:
       - .:/workspace:cached
       - go-mod-cache:/go/pkg/mod
     tty: true
+    init: true
     ports:
       - 8080:8080
 
