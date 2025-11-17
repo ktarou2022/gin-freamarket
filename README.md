@@ -14,3 +14,7 @@ add extension
     ]
 }
 ```
+
+```sh
+go get -tool github.com/air-verse/air@v1.62.0
+```

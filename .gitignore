@@ -16,3 +16,4 @@
 tmp/main
 *.out
 *.html
+.env
