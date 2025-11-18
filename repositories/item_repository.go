@@ -3,6 +3,8 @@ package repositories
 import (
 	"errors"
 	"gin-fleamarket/models"
+
+	"gorm.io/gorm"
 )
 
 type IItemRepository interface {
@@ -60,4 +62,41 @@ func (r *itemMemoryRepository) Delate(itemId uint) error {
 	}
 
 	return errors.New("item not found")
+}
+
+type itemRepository struct {
+	db *gorm.DB
+}
+
+func (r *itemRepository) Create(newItem models.Item) (*models.Item, error) {
+	result := r.db.Create(&newItem)
+	if result.Error != nil {
+		return nil, result.Error 
+	}
+
+	return &newItem, nil
+}
+
+// Delate implements IItemRepository.
+func (i *itemRepository) Delate(itemId uint) error {
+	panic("unimplemented")
+}
+
+// FindAll implements IItemRepository.
+func (i *itemRepository) FindAll() (*[]models.Item, error) {
+	panic("unimplemented")
+}
+
+// FindById implements IItemRepository.
+func (i *itemRepository) FindById(itemId uint) (*models.Item, error) {
+	panic("unimplemented")
+}
+
+// Update implements IItemRepository.
+func (i *itemRepository) Update(updaterItem models.Item) (*models.Item, error) {
+	panic("unimplemented")
+}
+
+func NewItemRepository(db *gorm.DB) IItemRepository {
+	return &itemRepository{db}
 }
