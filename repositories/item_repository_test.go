@@ -3,6 +3,9 @@ package repositories
 import (
 	"gin-fleamarket/models"
 	"testing"
+	"time"
+
+	"gorm.io/gorm"
 )
 
 func Test_itemMemoryRepository_Delate(t *testing.T) {
@@ -25,9 +28,25 @@ func Test_itemMemoryRepository_Delate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			items := []models.Item{
-				{Name: "テストアイテム1", Price: 1000, Description: "", SoldOut: false, ID: 1},
-				{Name: "テストアイテム2", Price: 2000, Description: "テスト2", SoldOut: true, ID: 2},
-				{Name: "テストアイテム3", Price: 3000, Description: "テスト3", SoldOut: false, ID: 3},
+				{Name: "テストアイテム1", Price: 1000, Description: "", SoldOut: false, Model: gorm.Model{
+					ID: 1,
+					CreatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local),
+					UpdatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local),
+					DeletedAt: gorm.DeletedAt{},
+				 },
+				},
+				{Name: "テストアイテム2", Price: 2000, Description: "テスト2", SoldOut: true, Model: gorm.Model{
+					ID: 2,
+					CreatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local),
+					UpdatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local),
+					DeletedAt: gorm.DeletedAt{},
+				 }},
+				{Name: "テストアイテム3", Price: 3000, Description: "テスト3", SoldOut: false, Model: gorm.Model{
+					ID: 3,
+					CreatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local),
+					UpdatedAt: time.Date(2025, 1, 1, 0, 0, 0, 0, time.Local),
+					DeletedAt: gorm.DeletedAt{},
+				 }},
 			}
 
 			r := NewItemMemoryRepository(items)
