@@ -7,17 +7,12 @@ import (
 
 func NewRouter(ic controllers.IItemController) *gin.Engine {
   g := gin.Default()
-
-  g.GET("/sample", func(c *gin.Context) {
-    c.JSON(200, gin.H{
-      "message": "pong",
-    })
-  })
-  g.GET("/items", ic.FindAll)
-  g.GET("/items/:id", ic.FindById)
-  g.POST("/items", ic.Create)
-  g.PUT("/items/:id", ic.Update)
-  g.DELETE("/items/:id", ic.Delete)
+  itemRouter := g.Group("/items")
+  itemRouter.GET("", ic.FindAll)
+  itemRouter.GET("/:id", ic.FindById)
+  itemRouter.POST("", ic.Create)
+  itemRouter.PUT("/:id", ic.Update)
+  itemRouter.DELETE("/:id", ic.Delete)
 
   return g
 }
