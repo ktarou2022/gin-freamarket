@@ -77,24 +77,49 @@ func (r *itemRepository) Create(newItem models.Item) (*models.Item, error) {
 	return &newItem, nil
 }
 
-// Delate implements IItemRepository.
-func (i *itemRepository) Delate(itemId uint) error {
-	panic("unimplemented")
+func (r *itemRepository) Delate(itemId uint) error {
+	deleteItem, err := r.FindById(itemId)
+	if err != nil {
+		return err
+	}
+
+	result := r.db.Delete(&deleteItem)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }
 
-// FindAll implements IItemRepository.
-func (i *itemRepository) FindAll() (*[]models.Item, error) {
-	panic("unimplemented")
+func (r *itemRepository) FindAll() (*[]models.Item, error) {
+	var items []models.Item
+	result := r.db.Find(&items)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &items, nil
 }
 
-// FindById implements IItemRepository.
-func (i *itemRepository) FindById(itemId uint) (*models.Item, error) {
-	panic("unimplemented")
+func (r *itemRepository) FindById(itemId uint) (*models.Item, error) {
+	var item models.Item
+	result := r.db.First(&item, itemId)
+	if result.Error != nil {
+		if result.Error.Error() == "record not found" {
+			return nil, errors.New("item not found")
+		}
+		return nil, result.Error
+	}
+
+	return &item, nil
 }
 
-// Update implements IItemRepository.
-func (i *itemRepository) Update(updaterItem models.Item) (*models.Item, error) {
-	panic("unimplemented")
+func (r *itemRepository) Update(updaterItem models.Item) (*models.Item, error) {
+	result := r.db.Save(&updaterItem)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &updaterItem, nil
 }
 
 func NewItemRepository(db *gorm.DB) IItemRepository {
