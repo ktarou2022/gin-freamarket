@@ -16,6 +16,7 @@ func NewRouter(ic controllers.IItemController, ac controllers.IAuthController) *
 
   authRouter := g.Group("/auth")
   authRouter.POST("/signup", ac.Siginup)
+  authRouter.POST("/login", ac.Login)
 
   return g
 }
