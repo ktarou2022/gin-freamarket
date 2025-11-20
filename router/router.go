@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewRouter(ic controllers.IItemController) *gin.Engine {
+func NewRouter(ic controllers.IItemController, ac controllers.IAuthController) *gin.Engine {
   g := gin.Default()
   itemRouter := g.Group("/items")
   itemRouter.GET("", ic.FindAll)
@@ -13,6 +13,9 @@ func NewRouter(ic controllers.IItemController) *gin.Engine {
   itemRouter.POST("", ic.Create)
   itemRouter.PUT("/:id", ic.Update)
   itemRouter.DELETE("/:id", ic.Delete)
+
+  authRouter := g.Group("/auth")
+  authRouter.POST("/signup", ac.Siginup)
 
   return g
 }

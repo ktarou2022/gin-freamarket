@@ -23,7 +23,10 @@ func main() {
   itemServices := services.NewItemService(itemRepository)
   itemController := controllers.NewItemController(itemServices)
 
-  g := router.NewRouter(itemController)
+  authRepository := repositories.NewAuthRepository(db)
+  authSevice := services.NewAuthService(authRepository)
+  authController := controllers.NewAuthController(authSevice)
+  g := router.NewRouter(itemController, authController)
 
   g.Run(":8080") // デフォルトで0.0.0.0:8080で待機します
 }
